@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "chart.fullname" . }}
+  labels:
+    {{- include "chart.labels" . | nindent 4 }}
+spec:
+{{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+{{- end }}
+  selector:
+    matchLabels:
+      {{- include "chart.selectorLabels" . | nindent 6 }}
+      version: {{ .Values.deployment.version }}
+  template:
+    metadata:
+    {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      labels:
+        {{- include "chart.selectorLabels" . | nindent 8 }}
+        version: {{ .Values.deployment.version }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "chart.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+          {{- toYaml .Values.ports | nindent 12 }}
+          {{- if hasKey .Values "livenessProbe" }}
+          livenessProbe:
+          {{- toYaml .Values.livenessProbe | nindent 12}}
+          {{- end }}
+          {{- if hasKey .Values "readinessProbe" }}
+          readinessProbe:
+          {{- toYaml .Values.readinessProbe | nindent 12}}
+          {{- end }}
+          resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+          env:
+          {{- toYaml .Values.env | nindent 12 }}
+          volumeMounts:
+            - name: "runtime-config"
+              mountPath: "/usr/share/nginx/html/secret"
+      volumes:
+        - name: "runtime-config"
+          secret:
+            secretName: runtime-self-service-key

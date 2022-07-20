@@ -1,0 +1,30 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ include "chart.fullname" . }}
+  labels:
+    {{- include "chart.labels" . | nindent 4 }}
+spec:
+  hosts:
+  {{- toYaml .Values.virtualservice.hosts | nindent 4 }}
+  {{- if .Values.virtualservice.public }}
+  gateways:
+    - istio-system/onboard-gateway-enrollment
+  http:
+    - match:
+        - uri:
+            prefix: /midecimo
+        - uri:
+            prefix: /roleros
+      route:
+        - destination:
+            port:
+              number: 80
+            host: {{ include "chart.fullname" . }}.{{ .Values.namespace }}.svc.cluster.local
+  {{- else }}
+  http:
+    - timeout: 5s
+      route:
+        - destination:
+            host: {{ include "chart.fullname" . }}.{{ .Values.namespace }}.svc.cluster.local
+  {{- end }}

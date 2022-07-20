@@ -1,0 +1,154 @@
+##### Esto es editable por el programador ##########
+variables:
+  own:
+    file:
+      - name: "nginx.conf"
+        value: |-
+          worker_processes  1;
+          events {
+            worker_connections 1024;
+          }
+          http {
+            server_tokens off;
+            add_header X-Frame-Options SAMEORIGIN;
+            add_header Cache-Control no-store;
+            add_header Pragma no-cache;
+            ###add_header Content-Security-Policy "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.pichincha.com https://www.googleadservices.com https://detectca.easysol.net https://connect.facebook.net https://www.facebook.com https://www.googletagmanager.com https://*.hotjar.com https://*.hotjar.io wss://*.hotjar.com https://www.google-analytics.com https://*.google.com https://*.gstatic.com http://34.120.46.84; img-src 'self' https://googleads.g.doubleclick.net https://detectca.easysol.net https://www.google-analytics.com https://*.gstatic.com https://stats.g.doubleclick.net https://*.hotjar.com https://*.hotjar.io https://*.google.com https://www.facebook.com https://www.google.com.ec https://www.googletagmanager.com http://34.120.46.84; connect-src https://*.pichincha.com https://detectca.easysol.net https://*.hotjar.com https://*.hotjar.io wss://*.hotjar.com https://www.google-analytics.com https://stats.g.doubleclick.net https://storage.googleapis.com https://connect.facebook.net https://www.googletagmanager.com https://www.facebook.com http://34.120.46.84;";
+            add_header X-Content-Type-Options nosniff;
+            add_header X-XSS-Protection "1; mode=block";
+            add_header Strict-Transport-Security "max-age=1536000; includeSubdomains;";
+            add_header X-Forwarded-For $http_x_forwarded_for;
+            add_header X-Remote-IP $remote_addr;
+            
+            ### Headers TCS
+            add_header x-crd-channel-id "02";
+            add_header x-crd-medium-id "020007";
+            add_header x-crd-application-id "00695";
+
+            ignore_invalid_headers on;
+            fastcgi_read_timeout 300;
+            proxy_read_timeout 300;
+
+            log_format le_json '{'
+                         '"X-Forwarded-IP": "$http_x_forwarded_for", '
+                         '"time": "$time_iso8601", '
+                         '"request_method": "$request_method", '
+                         '"status": "$status", '
+                         '"body_bytes_sent": "$body_bytes_sent", '
+                         '"request_time": "$request_time", '
+                         '"request": "$request", '
+                         '"http_user_agent": "$http_user_agent"'
+                         '}';
+
+            access_log /var/log/nginx/access.log le_json;
+
+            server {
+              listen         80 default_server;
+              server_name    $hostname;
+              set_real_ip_from  0.0.0.0/0;
+              real_ip_header    X-Forwarded-For;
+
+              root           /usr/share/nginx/html;
+              index          index.html;
+              include /etc/nginx/mime.types;
+
+              location / {
+                  try_files $uri /index.html;
+              }
+
+              error_page 400 401 402 403 404 405 406 407 408 409 410 411 412 413 414 415 416 417 495 496 497 500 501 502 503 504 505 506 507 /error.html;
+
+              location /error.html {
+                internal;
+              }
+
+              ## DDOS Attack
+              ## Timeouts definition ##
+              client_body_timeout 10;
+              client_header_timeout 10;
+              keepalive_timeout 55;
+              send_timeout 10;
+              ## End ##
+
+              #bloquear sparmmers
+              if ($http_referer ~* (babes|forsale|girl|jewelry|love|nudit|organic|poker|porn|sex|teen)){
+                return 403;
+              }
+
+              #Bloquear Agentes y robots
+              if ($http_user_agent ~* (acunetix|sqlmap|nikto|metasploit|hping3|maltego|nessus|webscarab|sqlsus|sqlninja|aranchni|netsparker|nmap|dirbuster|zenmap|hydra|owasp-zap|w3af|vega|burpsuite|aircrack-ng|whatweb|medusa) ) {
+                return 403;
+              }
+
+              ## Block some nasty robots
+              if ($http_user_agent ~ (msnbot|Purebot|Baiduspider|Lipperhey|Mail.Ru|scrapbot) ) {
+                return 403;
+              }
+
+              location ~ \.(7z|bak|bash|bz2|config|dist|engine|fla|git|gz|inc|info|ini|install|iso|log|make|module|profile|psd|py|rar|rb|sh|sql|swp|tar|zip|go|gif)$ {
+                return 403;
+              }
+
+              #### Contingencia ####
+              set $CONT "";
+
+              if ($request_uri != "/volveremos" ) {
+                 set $CONT "${CONT}Y";
+              }
+
+              if ($request_uri ~ \.(css|js|svg|ttf|woff|otf|ico) ) {
+                  set $CONT "${CONT}S";
+              }
+
+              if ( $CONT = YY ){
+                 return 302 https://$host/volveremos;
+              }
+              ####################
+
+              gzip on;
+              gzip_min_length 1000;
+              gzip_proxied expired no-cache no-store private auth;
+              gzip_types text/plain text/css application/json application/javascript application/x-javascript text/javascript;
+             }
+          }
+    config: {}
+    secret: {}
+
+  common:
+    config: {}
+    secret: {}
+
+####################################################
+
+global:
+  environment: "development"
+  replicaCount: "1"
+  revisionHistoryLimit: "5"
+  minReadySeconds: "0"
+  version: "v1"
+
+container:
+  registry: "gcr.io"
+  tag: "2020.04.06-16.04.45"
+  pullPolicy: "IfNotPresent"
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+  port:
+    - name: frontend-port
+      servicePort: 80
+      containerPort: 80
+      protocol: TCP
+  volumeMounts: {}
+
+hpa:
+  minReplicas: 1
+  maxReplicas: 1
+  targetMemory: 192Mi
+  targetCpu: 192m
+
+volumes: {}
