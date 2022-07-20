@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import './App.css'
 import { Button } from './components/atoms/Button/Button'
 
@@ -8,7 +9,12 @@ function App() {
       <header className="App-header">
         <h1>Onboard Express</h1>
       </header>
-      <Button color="primary">Hazme click</Button>
+
+      <button className="App-button">
+        <Link to="/registro" className="App-link">
+          Registrarme
+        </Link>
+      </button>
     </div>
   )
 }
