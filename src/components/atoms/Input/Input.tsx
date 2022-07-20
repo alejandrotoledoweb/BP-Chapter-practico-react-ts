@@ -50,15 +50,14 @@ export const Input: FC<InputProps> = ({
         type={type}
         placeholder={placeholder}
         value={value}
-        className={`${blurStatus ? 'focus-true' : ''}input`}
+        className={`${blurStatus ? 'focus-true-input' : ''} input`}
         onChange={handleOnChange}
         name={name}
         pattern={pattern}
         required
         onBlur={handleFocus}
-        // focus={blurStatus.toString()}
       />
-      <span className="input-span">{errorMessage}</span>
+      <span className={`${blurStatus ? 'focus-true-span' : ''} input-span`}>{errorMessage}</span>
     </div>
   )
 }

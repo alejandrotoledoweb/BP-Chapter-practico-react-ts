@@ -28,6 +28,10 @@ code {
   display: none;
 }
 
-.input:invalid ~ span {
+.input:invalid ~ .focus-true-span {
   display: block;
+}
+
+.focus-true-input {
+  border: 1px solid red;
 }
