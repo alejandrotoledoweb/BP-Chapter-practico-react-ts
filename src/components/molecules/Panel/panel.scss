@@ -1,0 +1,22 @@
+.panel-title {
+  padding: 10px 0px 0px 20px;
+}
+
+.panel {
+  margin: 0 auto;
+  border: 1px solid var(--darkGrey200);
+  max-width: 300px;
+}
+
+.panel-footer {
+  background-color: var(--darkGrey200);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+}
+
+.form-group {
+  padding: 20px 20px;
+}

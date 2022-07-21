@@ -1,5 +1,4 @@
-import { FC, useEffect, useState } from 'react'
-import './../../../index.css'
+import { FC, useEffect, useRef, useState } from 'react'
 
 export interface InputProps {
   initialValue?: string
@@ -29,12 +28,25 @@ export const Input: FC<InputProps> = ({
   const [value, setValue] = useState(initialValue)
   const [blurStatus, setBlurStatus] = useState(false)
 
+  const [valid, setValid] = useState<'disabled' | 'error' | 'normal' | 'success'>('normal')
+  // disabled
+  // error
+  // normal
+  // success
+
   useEffect(() => {
     setValue(initialValue)
   }, [initialValue])
 
   const handleOnChange = (event: any) => {
-    const val = event.target.value
+    const val = event.detail
+    console.log(event.detail)
+    const regex = new RegExp(`${pattern}`)
+    if (regex.test(val)) {
+      setValid('success')
+    } else {
+      setValid('error')
+    }
     setValue(val)
     onChange(val)
   }
@@ -43,21 +55,28 @@ export const Input: FC<InputProps> = ({
     setBlurStatus(true)
   }
 
+  const inputRef = useRef<any>()
+
+  useEffect(() => {
+    inputRef.current?.addEventListener('eventValue', handleOnChange)
+    return () => {
+      inputRef.current?.removeEventListener('eventValue', handleOnChange)
+    }
+  })
+
   return (
-    <div className="input-div" style={{ width }}>
-      <label>{label}</label>
-      <input
-        type={type}
-        placeholder={placeholder}
-        value={value}
-        className={`${blurStatus ? 'focus-true-input' : ''} input`}
-        onChange={handleOnChange}
-        name={name}
-        pattern={pattern}
-        required
-        onBlur={handleFocus}
-      />
-      <span className={`${blurStatus ? 'focus-true-span' : ''} input-span`}>{errorMessage}</span>
-    </div>
+    <pichincha-input
+      type={type}
+      placeholder={placeholder}
+      value={value}
+      ref={inputRef}
+      control-event={true}
+      pattern={pattern}
+      state={valid}
+      error-helper={errorMessage}
+      normal-helper={''}
+      show-icon-status={true}
+      full-width="true"
+    ></pichincha-input>
   )
 }

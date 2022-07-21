@@ -11,14 +11,13 @@ code {
 }
 
 .input-div {
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: start;
   gap: 0.5em;
   padding-bottom: 1rem;
-  margin: 0 auto;
-  width: 50%;
+  margin: 0 auto; */
 }
 
 .input-span {
@@ -28,10 +27,23 @@ code {
   display: none;
 }
 
-.input:invalid ~ .focus-true-span {
+/* .input:invalid ~ .focus-true-span {
   display: block;
-}
+} */
+/* .focus-true-span {
+  display: block;
+} */
 
 .focus-true-input {
   border: 1px solid red;
+}
+
+.input:valid {
+  border: 1px solid gray;
+}
+
+.panel-footer {
+}
+.panel-container {
+  padding-top: 30px;
 }

@@ -10,11 +10,11 @@ function App() {
         <h1>Onboard Express</h1>
       </header>
 
-      <button className="App-button">
+      <Button>
         <Link to="/registro" className="App-link">
           Registrarme
         </Link>
-      </button>
+      </Button>
     </div>
   )
 }
