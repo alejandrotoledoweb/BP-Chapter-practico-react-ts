@@ -2,8 +2,10 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from '../components/atoms/Button/Button'
+import { Checkbox } from '../components/atoms/Checkbox/Checkbox'
 import { Input } from '../components/atoms/Input/Input'
 import { Panel } from '../components/molecules/Panel/Panel'
+import { Panel2 } from '../components/molecules/Panel2/Panel2'
 
 export const Registro: React.FC = () => {
   const [values, setValues] = useState({
@@ -13,6 +15,28 @@ export const Registro: React.FC = () => {
     passwordConfirmation: ''
   })
   const [loading, setLoading] = useState(false)
+  const [checked, setChecked] = useState({
+    Anime: false,
+    'Ciencia Ficción': false,
+    Novelas: false,
+    Drama: false,
+    'Inteligencia Artificial': false
+  })
+
+  const [totalChecked, setTotalChecked] = useState(0)
+
+  useEffect(() => {
+    console.log({ totalChecked })
+    console.log(checked)
+  }, [totalChecked])
+
+  const addOrRemoveOne = (status: boolean) => {
+    if (status) {
+      return 1
+    } else {
+      return -1
+    }
+  }
 
   const handleOnChange =
     (property: 'nombre' | 'email' | 'password' | 'passwordConfirmation') =>
@@ -21,6 +45,17 @@ export const Registro: React.FC = () => {
         ...current,
         [property]: value
       }))
+    }
+
+  const handleOnCheckBox =
+    (value: 'Anime' | 'Ciencia Ficción' | 'Novelas' | 'Drama' | 'Inteligencia Artificial') =>
+    async (status: boolean) => {
+      setChecked((current) => ({
+        ...current,
+        [value]: status
+      }))
+
+      setTotalChecked(totalChecked + addOrRemoveOne(status))
     }
 
   // useEffect(() => {
@@ -100,7 +135,31 @@ export const Registro: React.FC = () => {
             />
           </div>
 
-          <div></div>
+          <div>
+            <Panel2 title="Categorías">
+              <Checkbox onClick={handleOnCheckBox('Anime')} value="Anime" id="1" disabled={false} />
+              <Checkbox
+                onClick={handleOnCheckBox('Ciencia Ficción')}
+                value="Ciencia Ficción"
+                id="1"
+                disabled={false}
+              />
+              <Checkbox
+                onClick={handleOnCheckBox('Novelas')}
+                value="Novelas"
+                id="1"
+                disabled={false}
+              />
+              <Checkbox onClick={handleOnCheckBox('Drama')} value="Drama" id="1" disabled={false} />
+              <Checkbox
+                onClick={handleOnCheckBox('Inteligencia Artificial')}
+                value="Anime"
+                id="1"
+                disabled={false}
+              />
+              {totalChecked < 3 && <span>Elige por lo menos 3 categorías</span>}
+            </Panel2>
+          </div>
           <div className="panel-footer">
             <Link to="/login">
               <pichincha-typography variant="h7">Iniciar Sesión</pichincha-typography>

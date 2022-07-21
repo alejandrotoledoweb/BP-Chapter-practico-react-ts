@@ -5,6 +5,8 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Registro } from './pages/Registro'
+import Login from './pages/Login'
+import { Books } from './pages/Books'
 
 ReactDOM.render(
   <React.StrictMode>
@@ -12,6 +14,8 @@ ReactDOM.render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/registro" element={<Registro />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/books" element={<Books />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,

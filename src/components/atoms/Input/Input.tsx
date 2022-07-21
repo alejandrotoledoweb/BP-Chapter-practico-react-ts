@@ -26,7 +26,6 @@ export const Input: FC<InputProps> = ({
   errorMessage
 }) => {
   const [value, setValue] = useState(initialValue)
-  const [blurStatus, setBlurStatus] = useState(false)
 
   const [valid, setValid] = useState<'disabled' | 'error' | 'normal' | 'success'>('normal')
   // disabled
@@ -40,7 +39,6 @@ export const Input: FC<InputProps> = ({
 
   const handleOnChange = (event: any) => {
     const val = event.detail
-    console.log(event.detail)
     const regex = new RegExp(`${pattern}`)
     if (regex.test(val)) {
       setValid('success')
@@ -49,10 +47,6 @@ export const Input: FC<InputProps> = ({
     }
     setValue(val)
     onChange(val)
-  }
-
-  const handleFocus = () => {
-    setBlurStatus(true)
   }
 
   const inputRef = useRef<any>()
