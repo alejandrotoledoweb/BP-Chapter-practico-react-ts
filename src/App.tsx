@@ -10,11 +10,18 @@ function App() {
         <h1>Onboard Express</h1>
       </header>
 
-      <Button>
-        <Link to="/registro" className="App-link">
-          Registrarme
-        </Link>
-      </Button>
+      <div className="buttons-div">
+        <Button color="complementary">
+          <Link to="/login" className="App-link-1">
+            Iniciar Sesión
+          </Link>
+        </Button>
+        <Button>
+          <Link to="/registro" className="App-link">
+            Registrarme
+          </Link>
+        </Button>
+      </div>
     </div>
   )
 }

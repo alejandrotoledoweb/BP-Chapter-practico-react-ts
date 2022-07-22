@@ -1,13 +1,16 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Button } from '../components/atoms/Button/Button'
 import { Checkbox } from '../components/atoms/Checkbox/Checkbox'
+import { ErrorMessage } from '../components/atoms/ErrorMessage/ErrorMessage'
 import { Input } from '../components/atoms/Input/Input'
 import { Panel } from '../components/molecules/Panel/Panel'
 import { Panel2 } from '../components/molecules/Panel2/Panel2'
+import store from '../store/Store'
+import { observer } from 'mobx-react'
 
-export const Registro: React.FC = () => {
+export const Registro: React.FC = observer(() => {
   const [values, setValues] = useState({
     nombre: '',
     email: '',
@@ -24,11 +27,25 @@ export const Registro: React.FC = () => {
   })
 
   const [totalChecked, setTotalChecked] = useState(0)
+  const [catgeories, setCategories] = useState<string[]>([])
+  const [info, setInfo] = useState({})
+  const [valid1, setValid1] = useState(false)
+  const [valid2, setValid2] = useState(false)
+
+  const navigate = useNavigate()
 
   useEffect(() => {
-    console.log({ totalChecked })
-    console.log(checked)
-  }, [totalChecked])
+    if (totalChecked >= 3) {
+      setValid2(true)
+    } else {
+      setValid2(false)
+    }
+  }, [catgeories])
+
+  useEffect(() => {
+    const areTruly = Object.values(info).every((value) => value === true)
+    setValid1(areTruly)
+  }, [info])
 
   const addOrRemoveOne = (status: boolean) => {
     if (status) {
@@ -38,13 +55,34 @@ export const Registro: React.FC = () => {
     }
   }
 
+  const addOrRemoveCat = (status: boolean, cat: string) => {
+    const indexUnChecked = catgeories.indexOf(cat)
+    if (status) {
+      setCategories((current) => [...current, cat])
+    } else {
+      setCategories((current) => current.filter((_, index) => index !== indexUnChecked))
+    }
+  }
+
   const handleOnChange =
     (property: 'nombre' | 'email' | 'password' | 'passwordConfirmation') =>
-    async (value: string) => {
+    async (value: string, validInput: string) => {
       setValues((current) => ({
         ...current,
         [property]: value
       }))
+      if (validInput === 'normal' || validInput === 'error' || validInput === 'disabled') {
+        setInfo((current) => ({
+          ...current,
+          [property]: false
+        }))
+      }
+      if (validInput === 'success') {
+        setInfo((current) => ({
+          ...current,
+          [property]: true
+        }))
+      }
     }
 
   const handleOnCheckBox =
@@ -56,24 +94,25 @@ export const Registro: React.FC = () => {
       }))
 
       setTotalChecked(totalChecked + addOrRemoveOne(status))
+      addOrRemoveCat(status, value)
     }
 
-  // useEffect(() => {
-  //   console.log({ values })
-  // }, [values])
-
   const handleSubmit = async () => {
-    // e.preventDefault()
     setLoading(true)
     try {
-      const register = await axios.post('http://localhost:3000/signup', {
+      const body = {
+        username: values.nombre,
         email: values.email,
         password: values.password,
-        authorid: '3'
-      })
-      const data: any = await register.data
-      if (data.success) {
-        console.log(data)
+        categories: catgeories
+      }
+      console.log({ body })
+      const register = await axios.post('https://cangular-api.herokuapp.com/users/', body)
+      const data = await register.data
+      console.log(data)
+      if (data.status === 'success') {
+        store.saveId(data.id)
+        navigate('/login')
       }
     } catch (error) {
       console.log({ error })
@@ -153,11 +192,11 @@ export const Registro: React.FC = () => {
               <Checkbox onClick={handleOnCheckBox('Drama')} value="Drama" id="1" disabled={false} />
               <Checkbox
                 onClick={handleOnCheckBox('Inteligencia Artificial')}
-                value="Anime"
+                value="Inteligencia Artificial"
                 id="1"
                 disabled={false}
               />
-              {totalChecked < 3 && <span>Elige por lo menos 3 categorías</span>}
+              {totalChecked < 3 && <ErrorMessage>Elige por lo menos 3 categorías</ErrorMessage>}
             </Panel2>
           </div>
           <div className="panel-footer">
@@ -165,7 +204,11 @@ export const Registro: React.FC = () => {
               <pichincha-typography variant="h7">Iniciar Sesión</pichincha-typography>
             </Link>
             <div className="button-div">
-              <Button onClick={handleSubmit} loading={loading}>
+              <Button
+                onClick={handleSubmit}
+                loading={loading}
+                disabled={valid2 && valid1 ? false : true}
+              >
                 Registrar
               </Button>
             </div>
@@ -174,4 +217,4 @@ export const Registro: React.FC = () => {
       </Panel>
     </div>
   )
-}
+})

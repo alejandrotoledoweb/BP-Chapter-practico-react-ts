@@ -26,6 +26,9 @@ export const Button: FC<ButtonProps> = (props: ButtonProps) => {
   const buttonRef = useRef<any>()
   useEffect(() => {
     buttonRef.current?.addEventListener('clickbutton', props.onClick)
+    return () => {
+      buttonRef.current?.removeEventListener('clickbutton', props.onClick)
+    }
   })
 
   return (

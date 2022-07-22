@@ -5,7 +5,7 @@ export interface InputProps {
   placeholder?: string
   width?: string
   type?: string
-  onChange?(value: any): void
+  onChange?(value: any, value2: any): void
   name?: string
   inputId?: string
   label?: string
@@ -37,6 +37,10 @@ export const Input: FC<InputProps> = ({
     setValue(initialValue)
   }, [initialValue])
 
+  useEffect(() => {
+    onChange(value, valid)
+  }, [valid, value])
+
   const handleOnChange = (event: any) => {
     const val = event.detail
     const regex = new RegExp(`${pattern}`)
@@ -46,7 +50,6 @@ export const Input: FC<InputProps> = ({
       setValid('error')
     }
     setValue(val)
-    onChange(val)
   }
 
   const inputRef = useRef<any>()
