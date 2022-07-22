@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { observer } from 'mobx-react'
 import React, { useEffect, useState } from 'react'
-import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Button } from '../components/atoms/Button/Button'
 import { Input } from '../components/atoms/Input/Input'
 import { Panel } from '../components/molecules/Panel/Panel'
@@ -41,6 +41,8 @@ const Login: React.FC = observer(() => {
       const data = await register.data
       console.log(data)
       if (data) {
+        sessionStorage.setItem('token', data.access_token)
+        sessionStorage.setItem('username', data.user.username)
         store.saveJWTAndName(data.access_token, data.user.username)
         store.saveUserId(data.user.userId)
         store.changeLoggedInStatus()
@@ -74,7 +76,7 @@ const Login: React.FC = observer(() => {
     }
   return (
     <div className="login-container">
-      <Panel title="Inciar Sesión">
+      <Panel title="Iniciar Sesión">
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <Input

@@ -15,3 +15,5 @@ export const Panel: React.FC<PanelProps> = ({ title, children }) => {
     </div>
   )
 }
+
+export default Panel

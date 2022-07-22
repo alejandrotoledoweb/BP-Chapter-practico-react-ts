@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { makeAutoObservable } from 'mobx'
 
-const fetchBooks = async (title: string, categories: number[], jwt: string) => {
+const fetchBooks = async (title: string, categories: number[], jwt: string | null) => {
   try {
     const response = await axios.post(
       `https://cangular-api.herokuapp.com/books/filter`,
@@ -25,7 +25,7 @@ const fetchBooks = async (title: string, categories: number[], jwt: string) => {
   }
 }
 
-interface Book {
+export interface BookInterface {
   id: string
   public: boolean
   author: string
@@ -34,7 +34,7 @@ interface Book {
   subtitle: string
   image: string
   url: string
-  category: number[]
+  category: []
   userRegister: string
 }
 
@@ -42,13 +42,13 @@ interface Book {
 class Store {
   currentUserId = ''
 
-  currentUserJWT = ''
+  currentUserJWT: string | null = ''
 
-  currentUserName = ''
+  currentUserName: string | null = ''
 
   isLoggedIn = false
 
-  books: Book[] = []
+  books: BookInterface[] = []
 
   constructor() {
     makeAutoObservable(this)
@@ -58,7 +58,7 @@ class Store {
     this.currentUserId = id
   }
 
-  saveJWTAndName(token: string, username: string) {
+  saveJWTAndName(token: string | null, username: string | null) {
     this.currentUserJWT = token
     this.currentUserName = username
   }

@@ -5,5 +5,6 @@ declare namespace JSX {
     'pichincha-typography': any
     'pichincha-check-box': any
     'pichincha-select': any
+    'pichincha-spinner': any
   }
 }

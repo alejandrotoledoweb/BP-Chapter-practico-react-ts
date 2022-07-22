@@ -218,3 +218,5 @@ export const Registro: React.FC = observer(() => {
     </div>
   )
 })
+
+export default Registro
