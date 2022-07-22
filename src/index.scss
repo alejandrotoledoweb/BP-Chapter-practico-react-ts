@@ -57,3 +57,51 @@ code {
 .error-message {
   padding: 10px 20px;
 }
+
+.login-container {
+  margin-top: 150px;
+}
+
+.books-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 15px;
+  justify-content: center;
+  align-content: center;
+}
+
+.book-image {
+  display: flex;
+  margin: 0 auto;
+  width: 70%;
+  border: 1px solid lightgrey;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.book-image:hover {
+  opacity: 0.4;
+}
+
+.top-books {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px 30px;
+  background-color: var(--darkGrey300);
+}
+
+.top-books-1 {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px 100px;
+}
+
+.top-books-2 {
+  margin-top: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px 100px;
+}

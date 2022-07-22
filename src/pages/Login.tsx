@@ -19,6 +19,12 @@ const Login: React.FC = observer(() => {
   const navigate = useNavigate()
 
   useEffect(() => {
+    if (store.isLoggedIn) {
+      navigate('/books')
+    }
+  })
+
+  useEffect(() => {
     const areTruly = Object.values(info).every((value) => value === true)
     setValid1(areTruly)
   }, [info])
@@ -38,7 +44,7 @@ const Login: React.FC = observer(() => {
         store.saveJWTAndName(data.access_token, data.user.username)
         store.saveUserId(data.user.userId)
         store.changeLoggedInStatus()
-        navigate('/')
+        navigate('/books')
       }
     } catch (error) {
       console.log({ error })
@@ -67,45 +73,47 @@ const Login: React.FC = observer(() => {
       }
     }
   return (
-    <Panel title="Inciar Sesión">
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <Input
-            label="Nombre de Usuario"
-            placeholder="Nombre de usuario"
-            initialValue={values.nombre}
-            onChange={handleOnChange('nombre')}
-            name="nombre"
-            inputId="nombre"
-            errorMessage="Nombre de usuario es requerido"
-            pattern="[A-Za-z0-9]{4,20}"
-            required={true}
-          />
-          <Input
-            label="Contraseña"
-            placeholder="*****"
-            initialValue={values.password}
-            onChange={handleOnChange('password')}
-            name="password"
-            inputId="password"
-            type="text"
-            errorMessage="Contraseña es requerida"
-            pattern="[A-Za-z0-9]{4,20}"
-            required={true}
-          />
-        </div>
-        <div className="panel-footer">
-          <Link to="/registro">
-            <pichincha-typography variant="h7">Registrarme</pichincha-typography>
-          </Link>
-          <div className="button-div">
-            <Button onClick={handleSubmit} loading={loading} disabled={valid1 ? false : true}>
-              Inciar Sesión
-            </Button>
+    <div className="login-container">
+      <Panel title="Inciar Sesión">
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <Input
+              label="Nombre de Usuario"
+              placeholder="Nombre de usuario"
+              initialValue={values.nombre}
+              onChange={handleOnChange('nombre')}
+              name="nombre"
+              inputId="nombre"
+              errorMessage="Nombre de usuario es requerido"
+              pattern="[A-Za-z0-9]{4,20}"
+              required={true}
+            />
+            <Input
+              label="Contraseña"
+              placeholder="*****"
+              initialValue={values.password}
+              onChange={handleOnChange('password')}
+              name="password"
+              inputId="password"
+              type="text"
+              errorMessage="Contraseña es requerida"
+              pattern="[A-Za-z0-9]{4,20}"
+              required={true}
+            />
           </div>
-        </div>
-      </form>
-    </Panel>
+          <div className="panel-footer">
+            <Link to="/registro">
+              <pichincha-typography variant="h7">Registrarme</pichincha-typography>
+            </Link>
+            <div className="button-div">
+              <Button onClick={handleSubmit} loading={loading} disabled={valid1 ? false : true}>
+                Inciar Sesión
+              </Button>
+            </div>
+          </div>
+        </form>
+      </Panel>
+    </div>
   )
 })
 
