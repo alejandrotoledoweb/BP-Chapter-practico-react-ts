@@ -1,9 +1,21 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import './App.css'
 import { Button } from './components/atoms/Button/Button'
+import store from './store/Store'
 
 function App() {
+  const navigate = useNavigate()
+
+  const token = sessionStorage.getItem('token')
+  const username = sessionStorage.getItem('username')
+  useEffect(() => {
+    if (!token && !username) {
+      navigate('/login')
+    } else {
+      store.saveJWTAndName(token, username)
+    }
+  }, [])
   return (
     <div className="App">
       <header className="App-header">

@@ -11,6 +11,10 @@ export const Books = () => {
   const navigate = useNavigate()
   const [booksList, setBooksList] = useState([])
   const [loading, setLoading] = useState(false)
+  const [values, setValues] = useState({
+    filter: '',
+    category: [57]
+  })
 
   useEffect(() => {
     const token = sessionStorage.getItem('token')
@@ -25,37 +29,46 @@ export const Books = () => {
   useEffect(() => {
     setLoading(true)
     const booksList1 = async () => {
-      await store.fecthBooks('angular', [57])
+      await store.fecthBooks('', values.category)
       // setBooksList(store.books)
       setLoading(false)
     }
-    setTimeout(() => {
-      booksList1()
-    }, 5000)
+
+    booksList1()
   }, [])
 
-  const [values, setValues] = useState({
-    filter: ''
-  })
+  const handleOnChange =
+    (property: 'filter' | 'category') => async (value: string, validInput: string) => {
+      setValues((current) => ({
+        ...current,
+        [property]: value
+      }))
+      // if (validInput === 'normal' || validInput === 'error' || validInput === 'disabled') {
+      //   setInfo((current) => ({
+      //     ...current,
+      //     [property]: false
+      //   }))
+      // }
+      // if (validInput === 'success') {
+      //   setInfo((current) => ({
+      //     ...current,
+      //     [property]: true
+      //   }))
+      // }
+      setLoading(true)
+      try {
+        console.log(values.filter, values.category)
+        await store.fecthBooks(values.filter, values.category)
+      } catch (error) {
+        console.log(error)
+      } finally {
+        setLoading(false)
+      }
 
-  const handleOnChange = (property: 'filter') => async (value: string, validInput: string) => {
-    setValues((current) => ({
-      ...current,
-      [property]: value
-    }))
-    // if (validInput === 'normal' || validInput === 'error' || validInput === 'disabled') {
-    //   setInfo((current) => ({
-    //     ...current,
-    //     [property]: false
-    //   }))
-    // }
-    // if (validInput === 'success') {
-    //   setInfo((current) => ({
-    //     ...current,
-    //     [property]: true
-    //   }))
-    // }
-  }
+      // setBooksList(store.books)
+    }
+
+  const handleOnSelect = () => {}
   return (
     <div>
       <div className="top-books">
@@ -77,14 +90,14 @@ export const Books = () => {
             name="filter"
             inputId="filter"
             errorMessage="Nombre de usuario es requerido"
-            pattern="[A-Za-z0-9]{1,20}"
+            pattern="[A-Za-z0-9]{0,20}"
           />
-          <Select />
+          <Select onChange={handleOnChange('category')} />
         </div>
         <section className="books-container">
           {loading && <Spinner />}
           {store.books?.map((book) => (
-            <div className="book-div">
+            <div className="book-div" key={book.id}>
               <img className="book-image" src={book.image} alt={book.title} />
             </div>
           ))}
