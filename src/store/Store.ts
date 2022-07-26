@@ -35,7 +35,7 @@ const fetchOneBooks = async (id: string | undefined, jwt: string | null | undefi
     })
     const book = await response
     console.log(book.data)
-    if (book.status === 200) {
+    if (book.status) {
       return book.data.items
     }
   } catch (e) {

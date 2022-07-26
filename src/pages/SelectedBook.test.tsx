@@ -23,14 +23,41 @@ describe('SelectedBook page', () => {
   const token =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6Inc3cWZzYTVmMjEiLCJ1c2VybmFtZSI6ImtzdWFyZXoifSwiaWF0IjoxNjU4NzkwNTY1LCJleHAiOjE2NTg4MTIxNjV9.FCZ329lsnLZIQ1izY8mP93JUoI4WhM9kJ_7NhMPlVI0'
 
-  test('should render title, author and resumen', () => {
-    // render(
-    //   <BrowserRouter>
-    //     <SelectedBook jwt={token} />
-    //   </BrowserRouter>
-    // )
-    // store.selectedBook = book
-    // const title = screen.getByText('Learning Angular, 2nd Edition')
-    // expect(title).toBeVisible()
+  test('should render title, author and resumen', async () => {
+    axiosMock.get.mockResolvedValueOnce({
+      id: '2ac4ly00oen',
+      public: true,
+      author: 'Unknow',
+      resume: '',
+      title: 'Learning Angular, 2nd Edition',
+      subtitle: 'A Hands-On Guide to Angular 2 and Angular 4',
+      image: 'https://itbook.store/img/books/9780134576978.png',
+      url: 'https://itbook.store/books/9780134576978',
+      category: [57],
+      userRegister: 'w7qfsa5f21'
+    })
+
+    // const book = {
+    //   id: '2ac4ly00oen',
+    //   public: true,
+    //   author: 'Unknow',
+    //   resume: '',
+    //   title: 'Learning Angular, 2nd Edition',
+    //   subtitle: 'A Hands-On Guide to Angular 2 and Angular 4',
+    //   image: 'https://itbook.store/img/books/9780134576978.png',
+    //   url: 'https://itbook.store/books/9780134576978',
+    //   category: [57],
+    //   userRegister: 'w7qfsa5f21'
+    // }
+    render(
+      <BrowserRouter>
+        <SelectedBook jwt={token} />
+      </BrowserRouter>
+    )
+    store.selectedBook = book
+    const title = screen.getByText('Learning Angular, 2nd Edition')
+    await waitFor(() => {
+      expect(title).toBeVisible()
+    })
   })
 })
