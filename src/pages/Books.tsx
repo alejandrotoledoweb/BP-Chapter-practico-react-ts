@@ -1,85 +1,80 @@
+import { observer } from 'mobx-react'
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Button } from '../components/atoms/Button/Button'
 import { Input } from '../components/atoms/Input/Input'
 import { Select } from '../components/atoms/Select/Select'
 import { Spinner } from '../components/atoms/Spinner/Spinner'
-import store from '../store/Store'
-import BookInterface from '../store/Store'
-
-export const Books = () => {
+import store, { BookInterface } from '../store/Store'
+interface BooksProps {
+  jwt: string | null
+  username: string | null
+}
+export const Books: React.FC<BooksProps> = observer(({ jwt, username }) => {
   const navigate = useNavigate()
-  const [booksList, setBooksList] = useState([])
+  // const [booksList, setBooksList] = useState<BookInterface[]>([])
   const [loading, setLoading] = useState(false)
   const [values, setValues] = useState({
     filter: '',
-    category: [57]
+    category: 57
   })
-
-  useEffect(() => {
-    const token = sessionStorage.getItem('token')
-    const username = sessionStorage.getItem('username')
-    if (!token && !username) {
-      navigate('/login')
-    } else {
-      store.saveJWTAndName(token, username)
-    }
-  })
+  const [allBooks, setAllBooks] = useState<BookInterface[]>([])
 
   useEffect(() => {
     setLoading(true)
-    const booksList1 = async () => {
-      await store.fecthBooks('', values.category)
-      // setBooksList(store.books)
-      setLoading(false)
-    }
-
-    booksList1()
+    store.fecthBooks('', [values.category], store.currentUserJWT || jwt)
+    setAllBooks(store.books)
+    setLoading(false)
   }, [])
 
   const handleOnChange =
-    (property: 'filter' | 'category') => async (value: string, validInput: string) => {
+    (property: 'filter' | 'category') => async (value: any, validInput: string) => {
       setValues((current) => ({
         ...current,
         [property]: value
       }))
-      // if (validInput === 'normal' || validInput === 'error' || validInput === 'disabled') {
-      //   setInfo((current) => ({
-      //     ...current,
-      //     [property]: false
-      //   }))
-      // }
-      // if (validInput === 'success') {
-      //   setInfo((current) => ({
-      //     ...current,
-      //     [property]: true
-      //   }))
-      // }
-      setLoading(true)
-      try {
-        console.log(values.filter, values.category)
-        await store.fecthBooks(values.filter, values.category)
-      } catch (error) {
-        console.log(error)
-      } finally {
-        setLoading(false)
-      }
 
-      // setBooksList(store.books)
+      setLoading(true)
+      if (property === 'filter') {
+        try {
+          console.log(value, [values.category])
+          await store.fecthBooks(value, [values.category], jwt)
+        } catch (error) {
+          console.log(error)
+        } finally {
+          setLoading(false)
+        }
+      }
+      if (property === 'category') {
+        try {
+          console.log(values.filter, [value])
+          await store.fecthBooks(values.filter, [value], jwt)
+        } catch (error) {
+          console.log(error)
+        } finally {
+          setLoading(false)
+        }
+      }
     }
 
-  const handleOnSelect = () => {}
+  const selectBook = (book: BookInterface) => {
+    store.saveSelectedBook(book)
+  }
   return (
     <div>
       <div className="top-books">
         <pichincha-typography variant="h3">Biblioteca</pichincha-typography>
-        <pichincha-typography variant="bodyText">{store.currentUserName}</pichincha-typography>
+        <pichincha-typography variant="bodyText">{username}</pichincha-typography>
       </div>
 
       <section>
         <div className="top-books-1">
           <pichincha-typography variant="h3">Tus Libros</pichincha-typography>
-          <Button color="secondary">Agregar Libro</Button>
+          <Link to="/agregarlibro">
+            <Button role={'Agregar Libros'} color="secondary">
+              Agregar Libro
+            </Button>
+          </Link>
         </div>
         <div className="top-books-2">
           <Input
@@ -97,12 +92,14 @@ export const Books = () => {
         <section className="books-container">
           {loading && <Spinner />}
           {store.books?.map((book) => (
-            <div className="book-div" key={book.id}>
-              <img className="book-image" src={book.image} alt={book.title} />
-            </div>
+            <Link to={`/selectedbook/${book.id}`} onClick={() => selectBook(book)}>
+              <div className="book-div" key={book.id}>
+                <img className="book-image" src={book.image} alt={book.title} />
+              </div>
+            </Link>
           ))}
         </section>
       </section>
     </div>
   )
-}
+})

@@ -19,7 +19,7 @@ const Login: React.FC = observer(() => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (store.isLoggedIn) {
+    if (store.currentUserJWT) {
       navigate('/books')
     }
   })

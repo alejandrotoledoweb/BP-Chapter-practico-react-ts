@@ -1,7 +1,8 @@
 import axios from 'axios'
-import { makeAutoObservable } from 'mobx'
+import { makeAutoObservable, runInAction } from 'mobx'
 
-const fetchBooks = async (title: string, categories: number[], jwt: string | null) => {
+const fetchBooks = async (title: string | number, categories: number[], jwt: string | null) => {
+  console.log({ jwt })
   try {
     const response = await axios.post(
       `https://cangular-api.herokuapp.com/books/filter`,
@@ -15,9 +16,27 @@ const fetchBooks = async (title: string, categories: number[], jwt: string | nul
         }
       }
     )
-    const books = await response.data
-    if (books) {
-      return books.items
+    const books = await response
+    console.log(books.data)
+    if (books.status === 200) {
+      return books.data.items
+    }
+  } catch (e) {
+    console.log({ error: e })
+  } finally {
+  }
+}
+const fetchOneBooks = async (id: string | undefined, jwt: string | null | undefined) => {
+  try {
+    const response = await axios.get(`https://cangular-api.herokuapp.com/books/owner/${id}`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`
+      }
+    })
+    const book = await response
+    console.log(book.data)
+    if (book.status === 200) {
+      return book.data.items
     }
   } catch (e) {
     console.log({ error: e })
@@ -34,7 +53,7 @@ export interface BookInterface {
   subtitle: string
   image: string
   url: string
-  category: []
+  category: number[]
   userRegister: string
 }
 
@@ -46,9 +65,23 @@ class Store {
 
   currentUserName: string | null = ''
 
-  isLoggedIn = false
-
   books: BookInterface[] = []
+
+  selectedBook: BookInterface = {
+    id: '',
+    public: true,
+    author: '',
+    resume: '',
+    title: '',
+    subtitle: '',
+    image: '',
+    url: '',
+    category: [],
+    userRegister: ''
+  }
+
+  isLoggedIn = false
+  store: BookInterface
 
   constructor() {
     makeAutoObservable(this)
@@ -59,8 +92,11 @@ class Store {
   }
 
   saveJWTAndName(token: string | null, username: string | null) {
-    this.currentUserJWT = token
-    this.currentUserName = username
+    runInAction(() => {
+      this.currentUserJWT = token
+      this.currentUserName = username
+      this.isLoggedIn = true
+    })
   }
 
   saveUserId(id: string) {
@@ -72,9 +108,24 @@ class Store {
     console.log({ loggedIn: this.isLoggedIn })
   }
 
-  async fecthBooks(title: string, cat: number[]) {
-    const books = await fetchBooks(title, cat, this.currentUserJWT)
-    this.books = books
+  async fecthBooks(title: string | number, cat: number[], jwt: string | null) {
+    const books = await fetchBooks(title, cat, jwt)
+    runInAction(() => {
+      this.books = books
+    })
+  }
+
+  saveSelectedBook(book: BookInterface) {
+    runInAction(() => {
+      this.selectedBook = book
+    })
+  }
+
+  async fetchBook(id: string | undefined, jwt: string | null | undefined) {
+    const book = await fetchOneBooks(id, jwt)
+    runInAction(() => {
+      this.selectedBook = book
+    })
   }
 }
 

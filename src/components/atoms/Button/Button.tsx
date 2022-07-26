@@ -20,6 +20,7 @@ export interface ButtonProps {
   tabIndexNumber?: number
   onClick?: () => void
   children?: React.ReactNode
+  role?: string
 }
 
 export const Button: FC<ButtonProps> = (props: ButtonProps) => {
