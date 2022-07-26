@@ -21,10 +21,9 @@ export const Books: React.FC<BooksProps> = observer(({ jwt, username }) => {
   const [allBooks, setAllBooks] = useState<BookInterface[]>([])
 
   useEffect(() => {
-    setLoading(true)
+    // setLoading(true)
     store.fecthBooks('', [values.category], store.currentUserJWT || jwt)
     setAllBooks(store.books)
-    setLoading(false)
   }, [])
 
   const handleOnChange =

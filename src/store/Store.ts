@@ -81,7 +81,6 @@ class Store {
   }
 
   isLoggedIn = false
-  store: BookInterface
 
   constructor() {
     makeAutoObservable(this)

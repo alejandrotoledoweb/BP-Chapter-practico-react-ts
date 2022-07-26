@@ -29,12 +29,20 @@ export const SelectedBook: React.FC<SelectedBookProps> = observer(({ isLoading =
       </Link>
       <section>
         <div>
-          <h2>{book.title}</h2>
+          <div>
+            <h2>{book.title}</h2>
+          </div>
+          <div>
+            <h2>{book.author}</h2>
+          </div>
+          <div>
+            <h2>{book.url}</h2>
+          </div>
+          <div>
+            <h2>{book.resumen}</h2>
+          </div>
+          <h2>{book.category}</h2>
           <img src={`${book.image}`} title="selectedBook" />
-        </div>
-        <div>
-          <h2>{store.selectedBook?.title}</h2>
-          <img src={`${store.selectedBook?.image}`} title="selectedBook" />
         </div>
       </section>
     </div>

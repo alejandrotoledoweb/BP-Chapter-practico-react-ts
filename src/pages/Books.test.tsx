@@ -61,9 +61,6 @@ describe('Books Page', () => {
       <BrowserRouter>
         <Books jwt={token} username={'ksuarez'} />
       </BrowserRouter>
-      // <MemoryRouter initialEntries={['/books']}>
-      //   <Books />
-      // </MemoryRouter>
     )
     const username = screen.getByText('ksuarez')
     const title = screen.getByText('Tus Libros')
@@ -88,8 +85,6 @@ describe('Books Page', () => {
   })
 
   test('should render a list of books', () => {
-    const mockToken = 'foobar'
-
     // jest.mock('../store/Store', () => {
     //   return { books: books.items }
     // })
