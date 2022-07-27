@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { makeAutoObservable, runInAction } from 'mobx'
+import { makeAutoObservable, runInAction, observable, action } from 'mobx'
 
 const fetchBooks = async (title: string | number, categories: number[], jwt: string | null) => {
   console.log({ jwt })
@@ -34,7 +34,6 @@ const fetchOneBooks = async (id: string | undefined, jwt: string | null | undefi
       }
     })
     const book = await response
-    console.log(book.data)
     if (book.status) {
       return book.data.items
     }
@@ -83,7 +82,7 @@ class Store {
   isLoggedIn = false
 
   constructor() {
-    makeAutoObservable(this)
+    makeAutoObservable(this, { selectedBook: observable, books: observable, fetchBook: action })
   }
 
   saveId(id: string) {

@@ -105,3 +105,33 @@ code {
   justify-content: space-between;
   padding: 10px 100px;
 }
+
+.book-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.titles-container {
+  padding-top: 50px;
+}
+
+.titles-book {
+  padding-top: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+}
+
+.buttons-book {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  padding-left: 100px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.btn-book {
+  width: 200px;
+}

@@ -39,9 +39,9 @@ describe('Login Page', () => {
     userEvent.type(usernameInput[0], 'ksuarez')
     userEvent.type(passwordInput[0], 'adm12345')
     fireEvent.click(buttonIniciarSesión)
-    // expect(buttonIniciarSesión).toHaveBeenCalledTimes(1)
-    // await waitFor(() => {
-    //   screen.getByText('Tus Libros')
-    // })
+    expect(buttonIniciarSesión).toBeTruthy()
+    await waitFor(() => {
+      screen.getByText('Registrarme')
+    })
   })
 })

@@ -41,7 +41,7 @@ export const Books: React.FC<BooksProps> = observer(({ jwt, username }) => {
         } catch (error) {
           console.log(error)
         } finally {
-          setLoading(false)
+          // setLoading(false)
         }
       }
       if (property === 'category') {
@@ -51,9 +51,9 @@ export const Books: React.FC<BooksProps> = observer(({ jwt, username }) => {
         } catch (error) {
           console.log(error)
         } finally {
-          setLoading(false)
         }
       }
+      setLoading(false)
     }
 
   const selectBook = (book: BookInterface) => {
@@ -91,7 +91,7 @@ export const Books: React.FC<BooksProps> = observer(({ jwt, username }) => {
         <section className="books-container">
           {loading && <Spinner />}
           {store.books?.map((book) => (
-            <Link to={`/selectedbook/${book.id}`} onClick={() => selectBook(book)}>
+            <Link key={book.title} to={`/selectedbook/${book.id}`} onClick={() => selectBook(book)}>
               <div className="book-div" key={book.id}>
                 <img className="book-image" src={book.image} alt={book.title} />
               </div>

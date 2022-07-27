@@ -38,9 +38,9 @@ describe('Registro Page', () => {
     userEvent.type(passwordInput, 'adm12345')
     userEvent.type(passwordConfirmationInput, 'adm12345')
     fireEvent.click(buttonIRegistro)
-    // expect(buttonIRegistro).toHaveBeenCalledTimes(1)
-    // await waitFor(() => {
-    //   screen.getByText('Tus Libros')
-    // })
+    expect(buttonIRegistro).toBeTruthy()
+    await waitFor(() => {
+      screen.getByText('Registrar')
+    })
   })
 })
