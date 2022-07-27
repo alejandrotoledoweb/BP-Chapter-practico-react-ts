@@ -4,6 +4,7 @@ import { Button } from '../components/atoms/Button/Button'
 import { Link, useParams } from 'react-router-dom'
 import { observer } from 'mobx-react'
 import { useFetchBook } from '../components/Hooks/useFetchBook'
+import { Spinner } from '../components/atoms/Spinner/Spinner'
 
 interface SelectedBookProps {
   isLoading?: boolean
@@ -23,36 +24,13 @@ export const SelectedBook: React.FC<SelectedBookProps> = observer(({ isLoading =
   }, [jwt])
 
   useEffect(() => {
-    // ;(async () => {
-    //   await store.fetchBook(bookId, jwtVar)
-    // })()
+    setIsGetting(true)
     store.fetchBook(bookId, jwtVar)
     setIsGetting(false)
-    setBookSel(store.selectedBook)
   }, [])
-
-  // useEffect(() => {
-  // }, [bookSel])
-
-  // useEffect(() => {
-  //   store.fetchBook(bookId, jwtVar)
-  // }, [])
-  // fetchB()
-  // store.fetchBook(bookId, jwtVar)
-  // return () => {
-  // }
-  //   setBookSel(store.selectedBook)
-  // }, [store.fetchBook])
-
-  // const { bookS, fetchBook } = useFetchBook(id, jwt)
-  // useEffect(() => {
-  //   fetchBook()
-  // setBookSel(bookS)
-  // }, [])
 
   return (
     <div>
-      {isGetting && <h1>Loading...</h1>}
       <div className="top-books">
         <pichincha-typography variant="h3">Biblioteca</pichincha-typography>
         <pichincha-typography variant="bodyText">{store.currentUserName}</pichincha-typography>
@@ -66,6 +44,7 @@ export const SelectedBook: React.FC<SelectedBookProps> = observer(({ isLoading =
         </Link>
       </div>
 
+      {isGetting && <Spinner />}
       <section>
         <div className="book-container">
           <img src={`${store.selectedBook?.image}`} title="selectedBook" />
@@ -73,7 +52,6 @@ export const SelectedBook: React.FC<SelectedBookProps> = observer(({ isLoading =
             <div className="titles-book">
               <pichincha-typography variant="">Título:</pichincha-typography>
               <pichincha-typography>{store.selectedBook?.title}</pichincha-typography>
-              {/* <h2>{store?.selectedBook?.title}</h2> */}
             </div>
             <div className="titles-book">
               <pichincha-typography variant="">Autor:</pichincha-typography>

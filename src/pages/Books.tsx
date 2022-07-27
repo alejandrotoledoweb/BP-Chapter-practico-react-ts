@@ -11,7 +11,6 @@ interface BooksProps {
   jwt: string | null
   username: string | null
 }
-
 export const Books: React.FC<BooksProps> = observer(({ jwt, username }) => {
   const navigate = useNavigate()
   // const [booksList, setBooksList] = useState<BookInterface[]>([])
@@ -23,9 +22,10 @@ export const Books: React.FC<BooksProps> = observer(({ jwt, username }) => {
   const [allBooks, setAllBooks] = useState<BookInterface[]>([])
 
   useEffect(() => {
-    // setLoading(true)
+    setLoading(true)
     store.fecthBooks('', [values.category], store.currentUserJWT || jwt)
     setAllBooks(store.books)
+    setLoading(false)
   }, [])
 
   const handleOnChange =
@@ -92,7 +92,7 @@ export const Books: React.FC<BooksProps> = observer(({ jwt, username }) => {
         </div>
         <section className="books-container">
           {loading && <Spinner />}
-          {allBooks?.map((book) => (
+          {store.books?.map((book) => (
             <Link key={book.title} to={`/selectedbook/${book.id}`}>
               <BookCard book={book} />
             </Link>
