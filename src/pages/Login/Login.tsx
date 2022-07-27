@@ -2,10 +2,10 @@ import axios from 'axios'
 import { observer } from 'mobx-react'
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Button } from '../components/atoms/Button/Button'
-import { Input } from '../components/atoms/Input/Input'
-import { Panel } from '../components/molecules/Panel/Panel'
-import store from '../store/Store'
+import { Button } from '../../components/atoms/Button/Button'
+import { Input } from '../../components/atoms/Input/Input'
+import { Panel } from '../../components/molecules/Panel/Panel'
+import store from '../../store/Store'
 
 const Login: React.FC = observer(() => {
   const [loading, setLoading] = useState<boolean>(false)

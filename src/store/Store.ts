@@ -26,7 +26,7 @@ const fetchBooks = async (title: string | number, categories: number[], jwt: str
   } finally {
   }
 }
-const fetchOneBooks = async (id: string | undefined, jwt: string | null | undefined) => {
+const fetchOneBook = async (id: string | undefined, jwt: string | null | undefined) => {
   try {
     const response = await axios.get(`https://cangular-api.herokuapp.com/books/owner/${id}`, {
       headers: {
@@ -34,8 +34,9 @@ const fetchOneBooks = async (id: string | undefined, jwt: string | null | undefi
       }
     })
     const book = await response
+    console.log({ book })
     if (book.status) {
-      return book.data.items
+      return book.data
     }
   } catch (e) {
     console.log({ error: e })
@@ -120,7 +121,9 @@ class Store {
   }
 
   async fetchBook(id: string | undefined, jwt: string | null | undefined) {
-    const book = await fetchOneBooks(id, jwt)
+    console.log(id, jwt)
+    const book = await fetchOneBook(id, jwt)
+    console.log(book)
     runInAction(() => {
       this.selectedBook = book
     })

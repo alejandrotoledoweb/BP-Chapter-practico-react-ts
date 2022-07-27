@@ -26,14 +26,13 @@ export const SelectedBook: React.FC<SelectedBookProps> = observer(({ isLoading =
     // ;(async () => {
     //   await store.fetchBook(bookId, jwtVar)
     // })()
-    return () => {
-      store.fetchBook(bookId, jwtVar)
-    }
-  }, [store.fetchBook, bookId, jwtVar])
-
-  useEffect(() => {
+    store.fetchBook(bookId, jwtVar)
     setIsGetting(false)
-  })
+    setBookSel(store.selectedBook)
+  }, [])
+
+  // useEffect(() => {
+  // }, [bookSel])
 
   // useEffect(() => {
   //   store.fetchBook(bookId, jwtVar)

@@ -3,7 +3,7 @@ import { SelectedBook } from './SelectedBook'
 import { axiosMock } from '../setupTests'
 import { fireEvent, render, screen, waitFor, cleanup } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Registro } from './Registro'
+
 import { BrowserRouter, Router } from 'react-router-dom'
 
 describe('SelectedBook page', () => {

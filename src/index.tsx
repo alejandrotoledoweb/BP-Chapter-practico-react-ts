@@ -4,12 +4,12 @@ import './index.scss'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { Registro } from './pages/Registro'
-import Login from './pages/Login'
+import Login from './pages/Login/Login'
 import { Books } from './pages/Books'
 import AgregarLibro from './pages/AgregarLibro'
 import { SelectedBook } from './pages/SelectedBook'
 import store from './store/Store'
+import Registro from './pages/Registro/Registro'
 
 ReactDOM.render(
   <React.StrictMode>

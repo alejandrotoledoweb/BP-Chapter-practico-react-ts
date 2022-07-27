@@ -1,8 +1,9 @@
-import { axiosMock } from '../setupTests'
+import { axiosMock } from '../../setupTests'
 import { fireEvent, render, screen, waitFor, cleanup } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Registro } from './Registro'
-import { BrowserRouter, Router } from 'react-router-dom'
+
+import { BrowserRouter } from 'react-router-dom'
+import Registro from './Registro'
 
 describe('Registro Page', () => {
   it('renders la página de login', () => {

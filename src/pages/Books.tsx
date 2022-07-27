@@ -5,11 +5,13 @@ import { Button } from '../components/atoms/Button/Button'
 import { Input } from '../components/atoms/Input/Input'
 import { Select } from '../components/atoms/Select/Select'
 import { Spinner } from '../components/atoms/Spinner/Spinner'
+import { BookCard } from '../components/molecules/BookCard/BookCard'
 import store, { BookInterface } from '../store/Store'
 interface BooksProps {
   jwt: string | null
   username: string | null
 }
+
 export const Books: React.FC<BooksProps> = observer(({ jwt, username }) => {
   const navigate = useNavigate()
   // const [booksList, setBooksList] = useState<BookInterface[]>([])
@@ -56,9 +58,9 @@ export const Books: React.FC<BooksProps> = observer(({ jwt, username }) => {
       setLoading(false)
     }
 
-  const selectBook = (book: BookInterface) => {
-    store.saveSelectedBook(book)
-  }
+  // const selectBook = (book: BookInterface) => {
+  //   store.saveSelectedBook(book)
+  // }
   return (
     <div>
       <div className="top-books">
@@ -90,11 +92,9 @@ export const Books: React.FC<BooksProps> = observer(({ jwt, username }) => {
         </div>
         <section className="books-container">
           {loading && <Spinner />}
-          {store.books?.map((book) => (
-            <Link key={book.title} to={`/selectedbook/${book.id}`} onClick={() => selectBook(book)}>
-              <div className="book-div" key={book.id}>
-                <img className="book-image" src={book.image} alt={book.title} />
-              </div>
+          {allBooks?.map((book) => (
+            <Link key={book.title} to={`/selectedbook/${book.id}`}>
+              <BookCard book={book} />
             </Link>
           ))}
         </section>

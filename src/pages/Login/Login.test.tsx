@@ -1,4 +1,4 @@
-import { axiosMock } from '../setupTests'
+import { axiosMock } from '../../setupTests'
 import { fireEvent, render, screen, waitFor, cleanup } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Login from './Login'
