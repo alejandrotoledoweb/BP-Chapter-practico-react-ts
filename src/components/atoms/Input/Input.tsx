@@ -62,18 +62,24 @@ export const Input: FC<InputProps> = ({
   })
 
   return (
-    <pichincha-input
-      type={type}
-      placeholder={placeholder}
-      value={value}
-      ref={inputRef}
-      control-event={true}
-      pattern={pattern}
-      state={valid}
-      error-helper={errorMessage}
-      normal-helper={''}
-      show-icon-status={true}
-      full-width="true"
-    ></pichincha-input>
+    <div className="input-label">
+      <pichincha-typography align="left" variant="bodyText">
+        {label}
+      </pichincha-typography>
+
+      <pichincha-input
+        type={type}
+        placeholder={placeholder}
+        value={value}
+        ref={inputRef}
+        control-event={true}
+        pattern={pattern}
+        state={valid}
+        error-helper={errorMessage}
+        normal-helper={''}
+        show-icon-status={true}
+        full-width="true"
+      ></pichincha-input>
+    </div>
   )
 }
