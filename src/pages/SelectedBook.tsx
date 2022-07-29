@@ -39,7 +39,11 @@ export const SelectedBook: React.FC<SelectedBookProps> = observer(({ isLoading =
         <Link to="/books" className="btn-book">
           <Button color="secondary">Volver</Button>
         </Link>
-        <Link to="/edit" className="btn-book">
+        <Link
+          to="/editarlibro"
+          className="btn-book"
+          onClick={() => store.saveEditBook(store.selectedBook)}
+        >
           <Button color="primary">Editar</Button>
         </Link>
       </div>
@@ -47,7 +51,13 @@ export const SelectedBook: React.FC<SelectedBookProps> = observer(({ isLoading =
       {isGetting && <Spinner />}
       <section>
         <div className="book-container">
-          <img src={`${store.selectedBook?.image}`} title="selectedBook" />
+          <img
+            src={`${store.selectedBook?.image}`}
+            title="selectedBook"
+            width="200px"
+            height="auto"
+            className="book-container__image"
+          />
           <div className="titles-container">
             <div className="titles-book">
               <pichincha-typography variant="">Título:</pichincha-typography>

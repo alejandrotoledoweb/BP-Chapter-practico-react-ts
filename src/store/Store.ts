@@ -2,7 +2,6 @@ import axios from 'axios'
 import { makeAutoObservable, runInAction, observable, action } from 'mobx'
 
 const fetchBooks = async (title: string | number, categories: number[], jwt: string | null) => {
-  console.log({ jwt })
   try {
     const response = await axios.post(
       `https://cangular-api.herokuapp.com/books/filter`,
@@ -17,7 +16,6 @@ const fetchBooks = async (title: string | number, categories: number[], jwt: str
       }
     )
     const books = await response
-    console.log(books.data)
     if (books.status === 200) {
       return books.data.items
     }
@@ -34,8 +32,7 @@ const fetchOneBook = async (id: string | undefined, jwt: string | null | undefin
       }
     })
     const book = await response
-    console.log({ book })
-    if (book.status) {
+    if (book.status == 200) {
       return book.data
     }
   } catch (e) {
@@ -68,6 +65,19 @@ class Store {
   books: BookInterface[] = []
 
   selectedBook: BookInterface = {
+    id: '',
+    public: true,
+    author: '',
+    resume: '',
+    title: '',
+    subtitle: '',
+    image: '',
+    url: '',
+    category: [],
+    userRegister: ''
+  }
+
+  editableBook: BookInterface = {
     id: '',
     public: true,
     author: '',
@@ -121,12 +131,29 @@ class Store {
   }
 
   async fetchBook(id: string | undefined, jwt: string | null | undefined) {
-    console.log(id, jwt)
     const book = await fetchOneBook(id, jwt)
-    console.log(book)
     runInAction(() => {
       this.selectedBook = book
     })
+  }
+
+  saveEditBook(book: BookInterface) {
+    this.editableBook = book
+  }
+
+  cleanBook() {
+    this.editableBook = {
+      id: '',
+      public: true,
+      author: '',
+      resume: '',
+      title: '',
+      subtitle: '',
+      image: '',
+      url: '',
+      category: [],
+      userRegister: ''
+    }
   }
 }
 

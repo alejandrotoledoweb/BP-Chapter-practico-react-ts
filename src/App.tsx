@@ -16,7 +16,6 @@ const App: React.FC = observer(() => {
 
   const token = sessionStorage.getItem('token')
   const username = sessionStorage.getItem('username')
-  console.log(username)
   useEffect(() => {
     //   if (!token && !username) {
     //     navigate('/login')
@@ -45,6 +44,7 @@ const App: React.FC = observer(() => {
             element={<SelectedBook jwt={store.currentUserJWT || token} />}
           />
           <Route path="/agregarlibro" element={<AgregarLibro />} />
+          <Route path="/editarlibro" element={<AgregarLibro />} />
         </Routes>
       </div>
     </BrowserRouter>

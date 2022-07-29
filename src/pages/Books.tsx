@@ -38,7 +38,6 @@ export const Books: React.FC<BooksProps> = observer(({ jwt, username }) => {
       setLoading(true)
       if (property === 'filter') {
         try {
-          console.log(value, [values.category])
           await store.fecthBooks(value, [values.category], jwt)
         } catch (error) {
           console.log(error)
@@ -48,7 +47,6 @@ export const Books: React.FC<BooksProps> = observer(({ jwt, username }) => {
       }
       if (property === 'category') {
         try {
-          console.log(values.filter, [value])
           await store.fecthBooks(values.filter, [value], jwt)
         } catch (error) {
           console.log(error)
@@ -71,7 +69,7 @@ export const Books: React.FC<BooksProps> = observer(({ jwt, username }) => {
       <section>
         <div className="top-books-1">
           <pichincha-typography variant="h3">Tus Libros</pichincha-typography>
-          <Link to="/agregarlibro">
+          <Link to="/agregarlibro" onClick={() => store.cleanBook()}>
             <Button role={'Agregar Libros'} color="secondary">
               Agregar Libro
             </Button>
@@ -93,9 +91,7 @@ export const Books: React.FC<BooksProps> = observer(({ jwt, username }) => {
         <section className="books-container">
           {loading && <Spinner />}
           {store.books?.map((book) => (
-            <Link key={book.title} to={`/selectedbook/${book.id}`}>
-              <BookCard book={book} />
-            </Link>
+            <BookCard book={book} key={book.id} />
           ))}
         </section>
       </section>

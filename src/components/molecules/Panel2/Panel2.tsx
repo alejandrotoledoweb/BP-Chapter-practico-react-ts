@@ -9,7 +9,9 @@ export const Panel2: React.FC<Panel2Props> = ({ title, children }) => {
   return (
     <div className="panel2">
       <div className="panel-title">
-        <pichincha-typography variant="h2">{title}</pichincha-typography>
+        <pichincha-typography variant="h2" weight="bold">
+          {title}
+        </pichincha-typography>
       </div>
       {children}
     </div>

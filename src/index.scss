@@ -96,6 +96,15 @@ code {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  max-width: 70%;
+  margin: 0 auto;
+  gap: 50px;
+
+  &__image {
+    width: 200px;
+    height: auto;
+    margin: 10px 10px;
+  }
 }
 
 .titles-container {

@@ -1,23 +1,44 @@
-.addbook-panel {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 30px;
-  margin: 0px 40px 0px 40px;
+.addbook-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  margin-left: 5rem;
+  margin-right: 5rem;
+
+  &__panel {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px;
+    margin: 0px 40px 0px 40px;
+  }
+
+  &__cat {
+    margin: 0px 20px 0px 20px;
+  }
+
+  &__footer {
+    justify-content: flex-end;
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    margin-right: 40px;
+  }
+  &__checkboxs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 .addbook-title {
   text-align: left;
-  margin: 50px 0px 20px 40px;
+  margin: 50px 0px 20px 7.5rem;
 }
 
-.addbook-cat {
-  margin: 0px 20px 0px 20px;
-}
-
-.addbook-footer {
-  justify-content: flex-end;
+.addbook-top {
   display: flex;
   flex-direction: row;
-  gap: 15px;
-  margin-right: 30px;
+  justify-content: space-between;
+  padding: 20px 30px;
+  background-color: var(--darkGrey300);
 }
