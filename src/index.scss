@@ -63,9 +63,10 @@ code {
 .books-container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 15px;
+  gap: 3rem;
   justify-content: center;
   align-content: center;
+  margin: 0 4rem;
 }
 
 .top-books {
