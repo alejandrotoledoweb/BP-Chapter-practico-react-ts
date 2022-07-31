@@ -1,0 +1,23 @@
+.publicaciones-title {
+  margin: 5rem 5rem;
+}
+.publicaciones-books {
+  display: grid;
+  grid-template-columns: 80% 20%;
+  gap: 0.2rem;
+  justify-content: center;
+  align-content: center;
+  margin: 0 4rem;
+  &__container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+    justify-content: center;
+    align-content: center;
+    margin: 0 4rem;
+  }
+
+  &__filter {
+    text-align: left;
+  }
+}

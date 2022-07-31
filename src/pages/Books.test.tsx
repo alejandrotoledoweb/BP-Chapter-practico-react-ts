@@ -76,11 +76,11 @@ describe('Books Page', () => {
     )
 
     const title = screen.getByText('Tus Libros')
-    const input = screen.getByPlaceholderText('Ej. Angular, React')
+    const input = screen.getAllByPlaceholderText('Ej. Angular, React')
     const button = screen.getByText('Agregar Libro')
 
     expect(title).toBeVisible()
-    expect(input).toBeVisible()
+    expect(input[0]).toBeVisible()
     expect(button).toBeVisible()
   })
 
@@ -147,14 +147,14 @@ describe('Books Page', () => {
       </BrowserRouter>
     )
 
-    const img1 = screen.getByAltText('Learning Angular, 2nd Edition')
-    const img2 = screen.getByAltText('Progressive Web Apps with Angular')
-    const img3 = screen.getByAltText('Angular for Material Design')
-    const img4 = screen.getByAltText('Angular: Up and Running')
+    const img1 = screen.getAllByAltText('Learning Angular, 2nd Edition')
+    const img2 = screen.getAllByAltText('Progressive Web Apps with Angular')
+    const img3 = screen.getAllByAltText('Angular for Material Design')
+    const img4 = screen.getAllByAltText('Angular: Up and Running')
 
-    expect(img1).toBeVisible()
-    expect(img2).toBeVisible()
-    expect(img3).toBeVisible()
-    expect(img4).toBeVisible()
+    expect(img1[0]).toBeVisible()
+    expect(img2[0]).toBeVisible()
+    expect(img3[0]).toBeVisible()
+    expect(img4[0]).toBeVisible()
   })
 })

@@ -6,6 +6,7 @@ import { Input } from '../components/atoms/Input/Input'
 import { Select } from '../components/atoms/Select/Select'
 import { Spinner } from '../components/atoms/Spinner/Spinner'
 import { BookCard } from '../components/molecules/BookCard/BookCard'
+import { Publicaciones } from '../components/templates/Publicaciones'
 import store, { BookInterface } from '../store/Store'
 interface BooksProps {
   jwt: string | null
@@ -95,6 +96,7 @@ export const Books: React.FC<BooksProps> = observer(({ jwt, username }) => {
           ))}
         </section>
       </section>
+      <Publicaciones jwt={jwt} />
     </div>
   )
 })

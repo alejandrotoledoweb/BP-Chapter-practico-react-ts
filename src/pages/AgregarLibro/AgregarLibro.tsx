@@ -11,11 +11,11 @@ import './AgregarLibro.scss'
 
 const AgregarLibro: React.FC = () => {
   const [checked, setChecked] = useState({
-    Anime: false,
-    'Ciencia Ficción': false,
-    Novelas: false,
+    'Action and adventure': false,
+    Tecnology: false,
+    'True crime': false,
     Drama: false,
-    'Inteligencia Artificial': false
+    Crime: false
   })
 
   const [totalChecked, setTotalChecked] = useState(0)
