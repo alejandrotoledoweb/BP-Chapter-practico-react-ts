@@ -41,6 +41,7 @@ export const Input: FC<InputProps> = ({
     onChange(value, valid)
   }, [valid, value])
 
+  // pasar a parte a un custom hooks
   const handleOnChange = (event: any) => {
     const val = event.detail
     const regex = new RegExp(`${pattern}`)

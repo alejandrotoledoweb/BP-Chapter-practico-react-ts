@@ -103,7 +103,6 @@ const AgregarLibro: React.FC = () => {
       default:
         catNumber = 57
     }
-    console.log(catNumber)
     const indexUnChecked = catgeories.indexOf(catNumber)
     if (status) {
       setCategories((current) => [...current, catNumber])
@@ -164,7 +163,7 @@ const AgregarLibro: React.FC = () => {
         }
       })
       const data = await register.data
-      if (data) {
+      if (data.status == 200) {
         navigate('/books')
       }
     } catch (error) {

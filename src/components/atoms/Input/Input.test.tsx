@@ -14,12 +14,27 @@ describe('Input component', () => {
   })
 
   it('test the placeholder passed with props', async () => {
+    const onChange = jest.fn()
     render(
       <BrowserRouter>
-        <Input placeholder="Registro panel" type="text" />
+        <Input placeholder="Registro panel" type="text" onChange={onChange} />
       </BrowserRouter>
     )
     const input = screen.getByPlaceholderText('Registro panel')
     expect(input).toBeVisible()
+  })
+  it('test the placeholder passed with props', async () => {
+    const onChange = jest.fn()
+    render(
+      <BrowserRouter>
+        <Input placeholder="Registro panel" type="text" onChange={onChange} />
+      </BrowserRouter>
+    )
+    const input = screen.getByPlaceholderText('Registro panel')
+    expect(onChange).toBeCalledTimes(1)
+    expect(onChange).toBeCalledWith('', 'normal')
+    fireEvent(input, new CustomEvent('eventValue', { detail: '123' }))
+    expect(onChange).toBeCalledWith('123', 'error')
+    expect(onChange).toBeCalledTimes(2)
   })
 })
