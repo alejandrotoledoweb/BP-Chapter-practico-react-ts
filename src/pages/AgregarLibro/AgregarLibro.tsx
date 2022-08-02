@@ -163,7 +163,7 @@ const AgregarLibro: React.FC = () => {
         }
       })
       const data = await register.data
-      if (data.status == 200) {
+      if (data.status == true) {
         navigate('/books')
       }
     } catch (error) {
@@ -295,13 +295,24 @@ const AgregarLibro: React.FC = () => {
             <Button color="secondary">Cancelar</Button>
           </Link>
 
-          <Button
-            onClick={store.editableBook ? editBookSubmit : handleSubmit}
-            loading={loading}
-            disabled={valid2 && valid1 ? false : true}
-          >
-            Registrar
-          </Button>
+          {store.editableBook.id === '' && (
+            <Button
+              onClick={handleSubmit}
+              loading={loading}
+              disabled={valid2 && valid1 ? false : true}
+            >
+              Registrar
+            </Button>
+          )}
+          {store.editableBook.id !== '' && (
+            <Button
+              onClick={handleSubmit}
+              loading={loading}
+              disabled={valid2 && valid1 ? false : true}
+            >
+              Actualizar
+            </Button>
+          )}
         </div>
       </div>
     </div>
