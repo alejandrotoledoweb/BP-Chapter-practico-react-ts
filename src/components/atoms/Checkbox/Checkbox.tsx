@@ -19,9 +19,9 @@ export const Checkbox: React.FC<CheckboxProps> = ({ value, id, disabled, onClick
   }
 
   useEffect(() => {
-    checkboxRef.current.addEventListener('clickCheck', handleClick)
+    checkboxRef.current?.addEventListener('clickCheck', handleClick)
     return () => {
-      checkboxRef.current.removeEventListener('clickCheck', handleClick)
+      checkboxRef.current?.removeEventListener('clickCheck', handleClick)
     }
   })
   return (
