@@ -1,14 +1,13 @@
 import { observer } from 'mobx-react'
 import React, { useEffect } from 'react'
-import { BrowserRouter, Link, Route, Routes, useNavigate } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
-import { Button } from './components/atoms/Button/Button'
 import AgregarLibro from './pages/AgregarLibro/AgregarLibro'
-import { Books } from './pages/Books'
+import { Books } from './pages/Books/Books'
 import { Home } from './pages/Home/Home'
 import Login from './pages/Login/Login'
 import Registro from './pages/Registro/Registro'
-import { SelectedBook } from './pages/SelectedBook'
+import { SelectedBook } from './pages/SelectedBook/SelectedBook'
 import store from './store/Store'
 
 const App: React.FC = observer(() => {

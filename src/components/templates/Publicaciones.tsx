@@ -55,7 +55,7 @@ export const Publicaciones: React.FC<PublicacionesProps> = observer(({ jwt }) =>
         } finally {
         }
       }
-      setLoading(false)
+      // setLoading(false)
     }
 
   const addOrRemoveCat = (status: boolean, cat: string) => {

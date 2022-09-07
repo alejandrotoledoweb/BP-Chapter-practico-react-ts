@@ -4,15 +4,6 @@ import { BrowserRouter, Router } from 'react-router-dom'
 import { Input } from './Input'
 
 describe('Input component', () => {
-  it('renders Input component', () => {
-    const container = render(
-      <BrowserRouter>
-        <Input placeholder="Registro panel" type="text" />
-      </BrowserRouter>
-    )
-    expect(container).toBeTruthy
-  })
-
   it('test the placeholder passed with props', async () => {
     const onChange = jest.fn()
     render(
@@ -23,7 +14,7 @@ describe('Input component', () => {
     const input = screen.getByPlaceholderText('Registro panel')
     expect(input).toBeVisible()
   })
-  it('test the placeholder passed with props', async () => {
+  it('test the state and message from the input', async () => {
     const onChange = jest.fn()
     render(
       <BrowserRouter>

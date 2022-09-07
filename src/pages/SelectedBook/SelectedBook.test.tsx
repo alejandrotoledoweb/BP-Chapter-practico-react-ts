@@ -1,6 +1,6 @@
-import store, { BookInterface } from '../store/Store'
+import store, { BookInterface } from '../../store/Store'
 import { SelectedBook } from './SelectedBook'
-import { axiosMock } from '../setupTests'
+import { axiosMock } from '../../setupTests'
 import { fireEvent, render, screen, waitFor, cleanup } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
@@ -25,38 +25,30 @@ describe('SelectedBook page', () => {
 
   test('should render title, author and resumen', async () => {
     axiosMock.get.mockResolvedValueOnce({
-      id: '2ac4ly00oen',
-      public: true,
-      author: 'Unknow',
-      resume: '',
-      title: 'Learning Angular, 2nd Edition',
-      subtitle: 'A Hands-On Guide to Angular 2 and Angular 4',
-      image: 'https://itbook.store/img/books/9780134576978.png',
-      url: 'https://itbook.store/books/9780134576978',
-      category: [57],
-      userRegister: 'w7qfsa5f21'
+      data: {
+        id: '2ac4ly00oen',
+        public: true,
+        author: 'Unknow',
+        resume: '',
+        title: 'Learning Angular, 2nd Edition',
+        subtitle: 'A Hands-On Guide to Angular 2 and Angular 4',
+        image: 'https://itbook.store/img/books/9780134576978.png',
+        url: 'https://itbook.store/books/9780134576978',
+        category: [57],
+        userRegister: 'w7qfsa5f21'
+      }
     })
 
-    // const book = {
-    //   id: '2ac4ly00oen',
-    //   public: true,
-    //   author: 'Unknow',
-    //   resume: '',
-    //   title: 'Learning Angular, 2nd Edition',
-    //   subtitle: 'A Hands-On Guide to Angular 2 and Angular 4',
-    //   image: 'https://itbook.store/img/books/9780134576978.png',
-    //   url: 'https://itbook.store/books/9780134576978',
-    //   category: [57],
-    //   userRegister: 'w7qfsa5f21'
-    // }
     render(
       <BrowserRouter>
         <SelectedBook jwt={token} />
       </BrowserRouter>
     )
-    store.selectedBook = book
-    const title = screen.getByText('Learning Angular, 2nd Edition')
+    // store.selectedBook = book
+    screen.getByTestId('spinner')
+
     await waitFor(() => {
+      const title = screen.getByText('Learning Angular, 2nd Edition')
       expect(title).toBeVisible()
     })
   })

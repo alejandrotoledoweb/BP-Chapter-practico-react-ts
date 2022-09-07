@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 
 export interface CheckboxProps {
   value?: string
-  onClick?(value: any): void
+  onClick?(value: boolean): void
   id: string | number
   disabled: boolean
   children?: React.ReactNode

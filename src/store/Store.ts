@@ -3,7 +3,7 @@ import { makeAutoObservable, runInAction, observable, action } from 'mobx'
 
 const fetchBooks = async (title: string | number, categories: number[], jwt: string | null) => {
   try {
-    const response = await axios.post(
+    const { data } = await axios.post(
       `https://cangular-api.herokuapp.com/books/filter`,
       {
         title: title,
@@ -15,29 +15,23 @@ const fetchBooks = async (title: string | number, categories: number[], jwt: str
         }
       }
     )
-    const books = await response
-    if (books.status === 200) {
-      return books.data.items
-    }
+
+    return data.items
   } catch (e) {
-    console.log({ error: e })
+    // console.log({ error: e })
   } finally {
   }
 }
 const fetchOneBook = async (id: string | undefined, jwt: string | null | undefined) => {
   try {
-    const response = await axios.get(`https://cangular-api.herokuapp.com/books/owner/${id}`, {
+    const { data } = await axios.get(`https://cangular-api.herokuapp.com/books/owner/${id}`, {
       headers: {
         Authorization: `Bearer ${jwt}`
       }
     })
-    const book = await response
-    if (book.status == 200) {
-      return book.data
-    }
+    return data
   } catch (e) {
-    console.log({ error: e })
-  } finally {
+    // console.log({ error: e })
   }
 }
 
@@ -114,7 +108,6 @@ class Store {
 
   changeLoggedInStatus() {
     this.isLoggedIn = true
-    console.log({ loggedIn: this.isLoggedIn })
   }
 
   async fecthBooks(title: string | number, cat: number[], jwt: string | null) {
@@ -127,6 +120,23 @@ class Store {
   saveSelectedBook(book: BookInterface) {
     runInAction(() => {
       this.selectedBook = book
+    })
+  }
+
+  cleanSelectedBook() {
+    runInAction(() => {
+      this.selectedBook = {
+        id: '',
+        public: true,
+        author: '',
+        resume: '',
+        title: '',
+        subtitle: '',
+        image: '',
+        url: '',
+        category: [],
+        userRegister: ''
+      }
     })
   }
 

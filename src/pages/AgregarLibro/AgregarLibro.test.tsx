@@ -1,12 +1,12 @@
 import { axiosMock } from '../../setupTests'
 import { fireEvent, render, screen, waitFor, cleanup } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-AgregarLibro
-import { BrowserRouter, Router } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 import AgregarLibro from './AgregarLibro'
+import store from '../../store/Store'
 
 describe('Agregar Libro Page', () => {
-  test('test to render the title of the form', () => {
+  test('to render the info of the book', () => {
     render(
       <BrowserRouter>
         <AgregarLibro />
@@ -41,5 +41,38 @@ describe('Agregar Libro Page', () => {
 
     // fireEvent.click(cancelarButton)
     // expect(cancelarButton).toHaveBeenCalledTimes(0)
+  })
+
+  test('should render selected book to edit in inputs', () => {
+    store.editableBook = {
+      id: '2ac4ly00oen',
+      public: true,
+      author: 'Unknow',
+      resume: '',
+      title: 'Learning Angular, 2nd Edition',
+      subtitle: 'A Hands-On Guide to Angular 2 and Angular 4',
+      image: 'https://itbook.store/img/books/9780134576978.png',
+      url: 'https://itbook.store/books/9780134576978',
+      category: [57],
+      userRegister: 'w7qfsa5f21'
+    }
+    render(
+      <BrowserRouter>
+        <AgregarLibro />
+      </BrowserRouter>
+    )
+
+    const nombreInput = screen.getByPlaceholderText('Ej. Angular, NRGX')
+    const urlLibroInput = screen.getByPlaceholderText('Ej. https://books-all.com')
+    const authorInput = screen.getByPlaceholderText('Ej. Isabel Allende')
+
+    expect(nombreInput).toBeVisible()
+    expect(urlLibroInput).toBeVisible()
+    expect(authorInput).toBeVisible()
+
+    // expect(nombreInputWithValue).toBeTruthy()
+
+    // expect(urlLibroInput).toHaveValue('https://itbook.store/books/9780134576978')
+    // expect(authorInput).toHaveValue('Unknow')
   })
 })
